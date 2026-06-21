@@ -45,9 +45,10 @@ export default function CartDrawer() {
         successUrl: `${window.location.origin}/payment/success`,
         failUrl: `${window.location.origin}/payment/fail`,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "결제 중 오류가 발생했습니다.";
       console.error("Payment error:", err);
-      alert(err.message || "결제 중 오류가 발생했습니다.");
+      alert(message);
     } finally {
       setIsProcessing(false);
     }

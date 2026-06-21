@@ -43,9 +43,10 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(data, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "An unexpected error occurred during payment confirmation.";
     return NextResponse.json(
-      { error: error.message || "An unexpected error occurred during payment confirmation." },
+      { error: message },
       { status: 500 }
     );
   }

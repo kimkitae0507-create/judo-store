@@ -9,6 +9,7 @@ import Button from "@/components/ui/button";
 import { useCart } from "@/lib/cart-context";
 import { useWishlist } from "@/lib/wishlist-context";
 import { useToast } from "@/lib/toast-context";
+import type { Product } from "@/types/product";
 
 export interface ProductDetailProps {
   product: {
@@ -25,8 +26,8 @@ export interface ProductDetailProps {
     color: string | null;
   };
   onBack?: () => void;
-  allProducts?: any[];
-  onProductSelect?: (product: any) => void;
+  allProducts?: Product[];
+  onProductSelect?: (product: Product) => void;
 }
 
 function isValidImageUrl(url: string | null): url is string {

@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Card from "@/components/ui/card";
 import Badge from "@/components/ui/badge";
+import type { Product } from "@/types/product";
 
 export interface ProductSkeletonProps {
   count?: number;
@@ -197,22 +198,10 @@ export function ProductCard({ brand, name, grade, price, currency, price_display
 
 export interface ProductListProps {
   title?: string;
-  products: Array<{
-    brand: string;
-    name: string;
-    grade: string | null;
-    price: number | null;
-    currency: string | null;
-    price_display: string | null;
-    image_url: string | null;
-    description: string | null;
-    stock: number | null;
-    size: string | null;
-    color: string | null;
-  }>;
+  products: Product[];
   isLoading?: boolean;
-  onProductSelect?: (product: any) => void;
-  onQuickView?: (product: any) => void;
+  onProductSelect?: (product: Product) => void;
+  onQuickView?: (product: Product) => void;
 }
 
 const BRANDS = ["All", "Mizuno", "KuSakura", "Fighting Films", "Essimo", "DAX Sports"];

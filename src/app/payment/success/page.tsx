@@ -1,18 +1,25 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { CheckCircle2, ShoppingBag, ArrowRight, Loader2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { CheckCircle2, ShoppingBag, Loader2 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import Link from "next/link";
 
+interface TossPaymentData {
+  orderName?: string;
+  totalAmount?: number;
+  method?: string;
+  approvedAt?: string;
+  orderId?: string;
+}
+
 function SuccessContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const { clearCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [paymentData, setPaymentData] = useState<any>(null);
+  const [paymentData, setPaymentData] = useState<TossPaymentData | null>(null);
 
   const paymentKey = searchParams.get("paymentKey");
   const orderId = searchParams.get("orderId");
@@ -47,9 +54,10 @@ function SuccessContent() {
 
         setPaymentData(data);
         clearCart();
-      } catch (err: any) {
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "결제 확인 중 예상치 못한 오류가 발생했습니다.";
         console.error("Payment confirmation failed:", err);
-        setError(err.message || "결제 확인 중 예상치 못한 오류가 발생했습니다.");
+        setError(message);
       } finally {
         setLoading(false);
       }
